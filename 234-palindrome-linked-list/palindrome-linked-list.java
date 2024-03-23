@@ -9,6 +9,7 @@
  * }
  */
 class Solution {
+    // Function to Reverse Linked List given Head Pointer
     public ListNode reverseList(ListNode head) {
         ListNode prev = null;
         ListNode curr = head;
@@ -20,10 +21,10 @@ class Solution {
             curr = next;
         }
         return prev;
-        
     }
 
     public boolean isPalindrome(ListNode head) {
+        // Step 1 - Find the middle of linked list
         ListNode slow = head;
         ListNode fast = head;
 
@@ -31,9 +32,12 @@ class Solution {
             slow = slow.next;
             fast = fast.next.next;
         }
-
+        
+        // now middle of list = slow.next
+        // Step 2 - Reverse the linked list from Middle
         ListNode new_head = reverseList(slow.next);
 
+        // Step 3 - Take to temperory pointers for first head and second head and Compare the list
         ListNode first = head;
         ListNode second = new_head;
 
@@ -46,7 +50,7 @@ class Solution {
             first= first.next;
             second = second.next;
         }
-
+       // Step 4 - Reverse the second half of list again to make it as it was!
         reverseList(new_head);
          return true;
 
