@@ -37,8 +37,8 @@ class Solution {
 
     public void reorderList(ListNode head) {
     ListNode middle = Mid(head);
-    
-    ListNode new_head = reverseList(middle);
+
+    ListNode new_head = reverseList(middle); // Note- here list is reversed from mid, not from mid.next thats why first pointer become null before second pointer in while loop
 
     ListNode first = head;
     ListNode second = new_head;
