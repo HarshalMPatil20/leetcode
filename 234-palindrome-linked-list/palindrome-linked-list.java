@@ -8,6 +8,7 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
+
 class Solution {
     // Function to Reverse Linked List given Head Pointer
     public ListNode reverseList(ListNode head) {
