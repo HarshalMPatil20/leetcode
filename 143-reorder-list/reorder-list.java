@@ -37,6 +37,7 @@ class Solution {
 
     public void reorderList(ListNode head) {
     ListNode middle = Mid(head);
+    
     ListNode new_head = reverseList(middle);
 
     ListNode first = head;
@@ -45,6 +46,7 @@ class Solution {
     while(first != null){
        
        ListNode temp1 = first.next;
+      
        ListNode temp2 = second.next;
 
         first.next = second;
