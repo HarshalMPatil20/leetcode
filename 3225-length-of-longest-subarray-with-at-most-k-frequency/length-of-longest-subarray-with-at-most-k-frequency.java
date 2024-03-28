@@ -2,9 +2,10 @@ class Solution {
     public int maxSubarrayLength(int[] nums, int k) {
         HashMap<Integer, Integer> map = new HashMap<>();
         int Left_pointer = 0;
+        int Right_pointer = 0;
         int answer = 0;
 
-        for(int Right_pointer = 0; Right_pointer<nums.length; Right_pointer++){
+        while( Right_pointer<nums.length && Left_pointer<nums.length ){
             
             map.put(nums[Right_pointer], map.getOrDefault(nums[Right_pointer], 0) + 1);
             
@@ -15,6 +16,7 @@ class Solution {
             }
 
             answer = Math.max( answer , Right_pointer - Left_pointer + 1);
+            Right_pointer ++;
         }
         return answer;
     }
