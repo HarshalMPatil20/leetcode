@@ -1,6 +1,6 @@
 class Solution {
     public int maxSubarrayLength(int[] nums, int k) {
-        LinkedHashMap<Integer, Integer> map = new LinkedHashMap<Integer, Integer>();
+        LinkedHashMap<Integer, Integer> map = new LinkedHashMap<>();
         int Left_pointer = 0;
         int Right_pointer = 0;
         int answer = 0;
