@@ -1,22 +1,34 @@
 class Solution {
+    public String makeGood(String s) {
 
-  public boolean isBadPair(char a, char b) {
-    return a != b && Character.toLowerCase(a) == Character.toLowerCase(b);
-  }
 
-  public String makeGood(String s) {
+        if (s.length() == 0 || s.length() == 1)
+            return s;
 
-    StringBuilder stringbuilder = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
 
-    for (char c : s.toCharArray())
+        sb.append(s);
 
-      if (stringbuilder.length() > 0 && isBadPair(stringbuilder.charAt(stringbuilder.length() - 1),  c))
-        stringbuilder.deleteCharAt(stringbuilder.length() - 1);
+        int i = 0;
 
-      else
-        stringbuilder.append(c);
+        while (i < sb.length() - 1)
+        {
+            char leftChar = sb.charAt(i);
+            char rightChar = sb.charAt(i + 1);
 
-    return stringbuilder.toString();
-  }
+            if (Math.abs(leftChar - rightChar) == 32)
+            {
+                sb.delete(i, i + 2);
 
+                if (i > 0)
+                    i--;
+            }
+            else
+            {
+                i++;
+            } 
+        }
+
+        return sb.toString();
+    }
 }
