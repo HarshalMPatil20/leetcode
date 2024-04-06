@@ -1,37 +1,24 @@
 class Solution {
     public String minRemoveToMakeValid(String s) {
-        int open=0,close=0,flag=0;
+        Stack <Integer> st=new Stack<>();
         for(int i=0;i<s.length();i++){
-            if(s.charAt(i)=='(') {
-                open++;
-                flag+=1;
-            }
-            else if(s.charAt(i)==')'&&flag>0) {
-                close++;
-                flag--;
-            }
-        }
-        int k=Math.min(open,close);
-        String ans="";
-        open=k;
-        close=k;
-        for(int i=0;i<s.length();i++){
-            if(s.charAt(i)=='('){
-                if(open>0) {
-                    ans+='(';
-                    open--;
+            if(s.charAt(i)=='(') st.push(i);
+            else if(s.charAt(i)==')'){
+                if(!st.isEmpty()&&s.charAt((int)st.peek())=='('){
+                    st.pop();
                 }
-                continue;
-            } 
-            if(s.charAt(i)==')') {
-               if(close>0&&close>open) {
-                  ans+=')'; 
-                  close--;
-               }
-               continue;
+                else st.push(i);
             }
-            else ans+=s.charAt(i);
+            else continue;
         }
-        return ans;
+        StringBuilder sb=new StringBuilder();
+        for(int i=s.length()-1;i>=0;i--){
+            if(!st.isEmpty()&&(int)st.peek()==i) {
+                st.pop();
+                continue;
+            }
+            else sb.append(s.charAt(i));
+        }
+        return sb.reverse().toString();
     }
 }
