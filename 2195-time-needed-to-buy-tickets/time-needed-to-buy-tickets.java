@@ -25,7 +25,7 @@ class Solution {
             if(tickets[i]<0) negative_counters += tickets[i];
         }
 
-// CALCULATION - Total number of iterations of targeted element in worst case + all negative elements counters (plus because the negative_counters is alredy negative in sign) - extra iteated element even after nullification of targeted element
+// CALCULATION - Total number of iterations of targeted element in worst case + all negative elements counters (plus because the negative_counters is alredy negative in sign) - extra iterated element even after nullification of targeted element
         return (element*tickets.length) + negative_counters - positive_elements;
         
     }
