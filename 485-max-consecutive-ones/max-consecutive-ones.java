@@ -7,9 +7,10 @@ class Solution {
             if(nums[i]==1){
                 count++;
             }
-            if(nums[i]==0){
+            else {
                 count=0;
             }
+            
             if(count>max_count){
                 max_count=count;
             }
