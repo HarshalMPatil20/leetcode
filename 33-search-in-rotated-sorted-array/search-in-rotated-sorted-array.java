@@ -5,12 +5,13 @@ class Solution {
         while (low < high) {
             int mid = (low + high) / 2;
 
-            if (nums[mid] > nums[high]) {
+            if (nums[mid] < nums[high]) {
                 // Pivot is in right half
-                low = mid+1;
+                high = mid;
+                
             } else {
                 // Pivot is in left half (including mid)
-                high = mid;
+                low = mid+1;
             }
         }
         return high; // index of smallest element
