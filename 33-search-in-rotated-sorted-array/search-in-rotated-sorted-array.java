@@ -7,13 +7,13 @@ class Solution {
 
             if (nums[mid] > nums[high]) {
                 // Pivot is in right half
-                low = mid + 1;
+                low = mid+1;
             } else {
                 // Pivot is in left half (including mid)
                 high = mid;
             }
         }
-        return low; // index of smallest element
+        return high; // index of smallest element
     }
 
     public int binarySearch(int[] nums, int low, int high, int target) {
