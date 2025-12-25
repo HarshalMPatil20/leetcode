@@ -1,45 +1,46 @@
 class Solution {
-    public int BinarySearch(int[] arr,int Low,int High, int x){
-        int low = Low;
-        int high = High;
+    public int findPivot(int[] nums) {
+        int low = 0, high = nums.length - 1;
 
-        while(low<=high){
-            int mid = (low+high)/2;
+        while (low < high) {
+            int mid = (low + high) / 2;
 
-            if(arr[mid]==x) return mid;
-            else if(arr[mid]<x){
-                low=mid+1;
-            }
-            else{
-                high=mid-1;
+            if (nums[mid] > nums[high]) {
+                // Pivot is in right half
+                low = mid + 1;
+            } else {
+                // Pivot is in left half (including mid)
+                high = mid;
             }
         }
-
-        return -1;
-
+        return low; // index of smallest element
     }
+
+    public int binarySearch(int[] nums, int low, int high, int target) {
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (nums[mid] == target)
+                return mid;
+            else if (nums[mid] < target)
+                low = mid + 1;
+            else
+                high = mid - 1;
+        }
+        return -1;
+    }
+
     public int search(int[] nums, int target) {
+        int n = nums.length;
 
-        if(nums.length==1){
-            if(nums[0]==target) return 0;
-            else return -1;
+        int pivot = findPivot(nums);
+
+        // If target is in right sorted part
+        if (target >= nums[pivot] && target <= nums[n - 1]) {
+            return binarySearch(nums, pivot, n - 1, target);
         }
-
-        int breaking_point = 0;
-
-        while(breaking_point+1<nums.length){
-            if(nums[breaking_point]>nums[++breaking_point]) break;
+        // Else target is in left sorted part
+        else {
+            return binarySearch(nums, 0, pivot - 1, target);
         }
-
-        if(BinarySearch(nums,0,breaking_point-1, target)!=-1){
-            return BinarySearch(nums,0,breaking_point-1, target);
-        }
-        else{
-            return BinarySearch(nums,breaking_point,nums.length-1,target);
-        }
-
-      
-
-        
     }
 }
