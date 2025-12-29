@@ -11,7 +11,7 @@ class Solution {
             long mid = low+((high-low)/2);
 
             if(mid*mid<=x){
-                ans = Math.max(ans,mid);
+                ans=mid;
                 low=mid+1;
             }
             else{
