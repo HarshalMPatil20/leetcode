@@ -1,15 +1,15 @@
 class Solution {
-    public long calculateThreshold (int[] nums,long divisor){
+    public int calculateThreshold (int[] nums,int divisor){
         int threshold = 0;
 
         for(int x : nums){
-            threshold += (long) Math.ceil((double)x/divisor);
+            threshold += (int) Math.ceil((double)x/divisor);
         }
         return threshold;
     }
 
-    public long maxInArray( int[] arr){
-        long max = Integer.MIN_VALUE;
+    public int maxInArray( int[] arr){
+        int max = Integer.MIN_VALUE;
         for( int x : arr ){
             max = Math.max(max , x);
         }
@@ -18,16 +18,16 @@ class Solution {
 
     public int smallestDivisor(int[] nums, int threshold) {
 
-        long low = 1;
-        long high = maxInArray(nums);
+        int low = 1;
+        int high = maxInArray(nums);
 
-        long ans = 0;
+        int ans = 0;
 
         while(low<=high){
 
-            long mid = low +(high-low)/2;
+            int mid = low +(high-low)/2;
             
-            long sum = calculateThreshold(nums,mid);
+            int sum = calculateThreshold(nums,mid);
 
             if(threshold>=sum){
                 ans = mid;
@@ -40,7 +40,7 @@ class Solution {
             }
         }
 
-        return (int)ans;
+        return ans;
         
     }
 }
