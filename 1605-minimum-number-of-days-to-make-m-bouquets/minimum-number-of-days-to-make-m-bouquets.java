@@ -27,8 +27,12 @@ class Solution {
         int max = arr[0];
 
         for (int x : arr) {
-            min = Math.min(min, x);
-            max = Math.max(max, x);
+            if(min > x) {
+                min = x;
+            }
+            if(max < x){
+                max = x;
+            }
         }
         return new int[] { min, max };
     }
