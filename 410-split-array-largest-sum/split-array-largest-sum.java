@@ -36,7 +36,7 @@ class Solution {
 
         long low = arr[0];
         long high = arr[1];
-        long ans = arr[1]; // important
+        long ans = 0; // important
 
         while (low <= high) {
             long mid = low + (high - low) / 2;
