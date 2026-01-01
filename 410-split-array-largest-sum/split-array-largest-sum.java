@@ -29,14 +29,9 @@ class Solution {
 
         long[] arr = maxAndSum(nums);
 
-        if (k == nums.length)
-            return (int) arr[0];
-        if (k == 1)
-            return (int) arr[1];
-
         long low = arr[0];
         long high = arr[1];
-        long ans = 0; // important
+        long ans = 0; 
 
         while (low <= high) {
             long mid = low + (high - low) / 2;
