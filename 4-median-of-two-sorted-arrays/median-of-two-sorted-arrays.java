@@ -1,44 +1,66 @@
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
 
-        int [] ans = new int[nums1.length+nums2.length];
-        int i=0;
-        int j=0;
-        int ptr=0;
-        double median;
+        int finalLength = nums1.length + nums2.length;
 
+        int index2 = finalLength / 2;
+        int idx2 = 0;
+        int idx1 = 0;
 
-        while(i<nums1.length && j<nums2.length){
-            if(nums1[i]<nums2[j]){
-                ans[ptr]=nums1[i];
-                ptr++;
-                i++;
+        int index1 = index2 - 1;
+
+        int ptr1 = 0;
+
+        int ptr2 = 0;
+
+        int count = 0;
+
+        while (ptr1 < nums1.length && ptr2 < nums2.length) {
+            if (nums1[ptr1] >= nums2[ptr2]) {
+                if (count == index1)
+                    idx1 = nums2[ptr2];
+                if (count == index2)
+                    idx2 = nums2[ptr2];
+                ptr2++;
+                count++;
+
+            } else {
+                if (count == index1)
+                    idx1 = nums1[ptr1];
+                if (count == index2)
+                    idx2 = nums1[ptr1];
+                ptr1++;
+                count++;
+
             }
-            else{
-                ans[ptr]=nums2[j];
-                ptr++;
-                j++;
-            }
-        }
-        while(i<nums1.length){
-            ans[ptr]=nums1[i];
-            ptr++;
-            i++;
-        }
-        while(j<nums2.length){
-            ans[ptr]=nums2[j];
-            ptr++;
-            j++;
         }
 
-        if((nums1.length+nums2.length)%2==0){
-            median = ans[(nums1.length+nums2.length)/2] + ans[(nums1.length+nums2.length)/2-1];
-            median /=2;
+        while (ptr1 < nums1.length) {
+            
+            if (count == index1)
+                idx1 = nums1[ptr1];
+            if (count == index2)
+                idx2 = nums1[ptr1];
+
+            ptr1++;
+            count++;
         }
+
+        while (ptr2 < nums2.length) {
+            
+            if (count == index1)
+                idx1 = nums2[ptr2];
+            if (count == index2)
+                idx2 = nums2[ptr2];
+
+            ptr2++;
+            count++;
+        }
+
+        if(finalLength%2==1) return (double) idx2;
         else{
-            median = ans[(nums1.length+nums2.length)/2];
+            return (double)(idx1+idx2)/2;
         }
 
-        return median;
     }
 }
