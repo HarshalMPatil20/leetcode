@@ -1,37 +1,35 @@
 class Solution {
 
-    // Computes total area of square parts ABOVE horizontal line y
-    public double areaAbove(int[][] squares, double y) {
-        double area = 0.0;
+    // Returns: (half area) - (area above y)
+    public double diffupdown(int[][] arr, double totalArea, double y) {
 
-        for (int[] sq : squares) {
-            double bottom = sq[1];
-            double side = sq[2];
+        double upward = 0.0;
+
+        for (int i = 0; i < arr.length; i++) {
+            double bottom = arr[i][1];
+            double side = arr[i][2];
             double top = bottom + side;
 
             if (y <= bottom) {
-                // Entire square is above the line
-                area += side * side;
+                // Entire square above the line
+                upward += side * side;
             } 
             else if (y < top) {
                 // Partially above the line
                 double heightAbove = top - y;
-                area += side * heightAbove;
+                upward += side * heightAbove;
             }
-            // else: square completely below → contributes 0
         }
 
-        return area;
+        return (totalArea / 2.0) - upward;
     }
 
     public double separateSquares(int[][] squares) {
+
         double totalArea = 0.0;
-
-        for (int[] sq : squares) {
-            totalArea += (double) sq[2] * sq[2];
+        for (int i = 0; i < squares.length; i++) {
+            totalArea += (double) squares[i][2] * squares[i][2];
         }
-
-        double target = totalArea / 2.0;
 
         double low = 0.0;
         double high = 1e9;
@@ -39,14 +37,14 @@ class Solution {
 
         while (high - low > 1e-6) {
             double mid = low + (high - low) / 2.0;
+            double diff = diffupdown(squares, totalArea, mid);
 
-            double above = areaAbove(squares, mid);
-
-            if (above > target) {
-                // Line is too low → too much area above
+            // diff = half - areaAbove
+            if (diff < 0) {
+                // areaAbove > half → move line UP
                 low = mid;
             } else {
-                // Valid position, try to minimize y
+                // valid or areaAbove <= half
                 ans = mid;
                 high = mid;
             }
