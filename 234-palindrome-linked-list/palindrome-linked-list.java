@@ -34,13 +34,13 @@ class Solution {
         ListNode fast = head;
 
         // Traverse the linked list to find the middle using slow and fast pointers
-        while (fast.next != null && fast.next.next != null) {
+        while (fast != null && fast.next != null) {
             slow = slow.next;       // Move slow pointer one step at a time
             fast = fast.next.next;  // Move fast pointer two steps at a time
         }
 
         // Reverse the second half of the linked list starting from the middle
-        ListNode newHead = reverseLinkedList(slow.next);
+        ListNode newHead = reverseLinkedList(slow);
 
         // Pointer to the first half
         ListNode first = head;
@@ -49,7 +49,7 @@ class Solution {
         ListNode second = newHead;
 
         // Compare data values of nodes from both halves
-        while (second != null) {
+        while (first != slow) {
             if (first.val != second.val) {
                 // If values do not match, the list is not a palindrome
                 reverseLinkedList(newHead);  // Reverse the second half back to its original state
