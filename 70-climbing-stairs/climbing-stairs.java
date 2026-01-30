@@ -1,20 +1,22 @@
 class Solution {
+    public int fun(int i, int n, int[] dp) {
+        if (i > n)
+            return 0;
+        if (i == n)
+            return 1;
+        if (dp[i] != -1)
+            return dp[i];
+
+        return dp[i] = fun(i + 1, n, dp) + fun(i + 2, n, dp);
+    }
+
     public int climbStairs(int n) {
-        
-        if(n==1) return 1;
-        if(n==2) return 2;
-        int t1 = 1;
-        int t2 = 2;
-        int t3 = 0;
-        for(int i=0;i<n-2;i++){
-            t3 = t1 + t2;
-            t1=t2;
-            t2=t3; 
-        }
-        
-        return t3;
 
+        int[] dp = new int[n + 1];
 
-        
+        Arrays.fill(dp, -1);
+
+        return fun(0, n, dp);
+
     }
 }
