@@ -17,7 +17,7 @@ class Solution {
 
         // Move fast pointer N+1 steps ahead to create a gap
         for (int i = 0; i <= n; i++) {
-            if(fast == null) return slow.next;
+            if(fast == null) return head.next; // if nth
             fast = fast.next;
 
         }
