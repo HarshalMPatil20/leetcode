@@ -10,16 +10,26 @@
  */
 class Solution {
     public ListNode reverseList(ListNode head) {
-        ListNode prev = null;
-        ListNode curr = head;
+// Base case: if list is empty or has only one node
+        if (head == null || head.next == null)
+            return head;
 
-        while(curr != null){
-            ListNode next = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = next;
-        }
+        // Recursively reverse the rest of the list
+        ListNode newHead = reverseList(head.next);
 
-        return prev;
+        // Store reference to next node
+        
+
+        // Make the next node point to current node
+        head.next.next = head;
+
+        // Break original forward link
+        head.next = null;
+
+        // Return new head of reversed list
+        return newHead;
+
+        
+        
     }
 }
