@@ -21,11 +21,12 @@ class Solution {
 
         for (String s : equations) {
             if (s.charAt(1) == '=') {
-                if (s.charAt(0) < s.charAt(3)) {
-                    assign(s.charAt(0), s.charAt(3), charValue);
-                } else {
-                    assign(s.charAt(3), s.charAt(0), charValue);
-                }
+                assign(s.charAt(0), s.charAt(3), charValue);
+                // if (s.charAt(0) < s.charAt(3)) {
+                //     assign(s.charAt(0), s.charAt(3), charValue);
+                // } else {
+                //     assign(s.charAt(3), s.charAt(0), charValue);
+                // }
                 for (int i : charValue) {
                     System.out.print(i + " ");
                 }
