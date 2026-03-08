@@ -1,73 +1,51 @@
 class Solution {
-    public boolean isValid(int x, int y, int[][] grid) {
-        if ((x < 0) || (x >= grid.length)) {
-            return false;
-        }
-        if ((y < 0) || (y >= grid.length)) {
-            return false;
-        }
-        if (grid[x][y] != 0) {
-            return false;
-        }
-        return true;
-    }
 
-    public List<int[]> provideNeighbours(int x, int y, int[][] grid) {
-        List<int[]> neighbours = new ArrayList<>();
-        int[][] direction = new int[][] { { 1, 1 }, { 1, 0 }, { 1, -1 }, { 0, 1 }, { 0, -1 }, { -1, 1 }, { -1, 0 },
-                { -1, -1 } };
+    private static final int[][] DIR = {
+        {1,1},{1,0},{1,-1},
+        {0,1},{0,-1},
+        {-1,1},{-1,0},{-1,-1}
+    };
 
-        for (int[] offset : direction) {
-            if (isValid(x + offset[0], y + offset[1], grid)) {
-                neighbours.add(new int[] { x + offset[0], y + offset[1] });
-            }
-        }
-        return neighbours;
+    private boolean isValid(int x, int y, int[][] grid) {
+        int n = grid.length;
+        return x >= 0 && y >= 0 && x < n && y < n && grid[x][y] == 0;
     }
 
     public int shortestPathBinaryMatrix(int[][] grid) {
 
-        if(grid[0][0] == 1) return -1;
+        int n = grid.length;
+        if (grid[0][0] == 1) return -1;
 
-        int[][] dist = new int[grid.length][grid[0].length];
-        for (int i = 0; i < dist.length; i++) {
-            Arrays.fill(dist[i], Integer.MAX_VALUE);
-        }
+        int[][] dist = new int[n][n];
+        for (int[] row : dist) Arrays.fill(row, Integer.MAX_VALUE);
+
+        PriorityQueue<int[]> pq =
+                new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
+
+        pq.offer(new int[]{1, 0, 0});
         dist[0][0] = 1;
 
-        PriorityQueue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(arr -> arr[0]));
-        queue.add(new int[] { 1, 0, 0 });
+        while (!pq.isEmpty()) {
 
-        while (!queue.isEmpty()) {
-            int[] curr = queue.poll();
-            int d = curr[0];
-            int Ux = curr[1];
-            int Uy = curr[2];
+            int[] curr = pq.poll();
+            int d = curr[0], x = curr[1], y = curr[2];
 
-            if (d > dist[Ux][Uy]) {
-                continue;
-            }
+            if (d > dist[x][y]) continue;
 
-            for (int[] node : provideNeighbours(Ux, Uy, grid)) {
+            for (int[] dir : DIR) {
+                int nx = x + dir[0];
+                int ny = y + dir[1];
 
-                int Vx = node[0];
-                int Vy = node[1];
+                if (!isValid(nx, ny, grid)) continue;
 
-                if (d + 1 < dist[Vx][Vy]) {
-                    dist[Vx][Vy] = d + 1;
-                    queue.add(new int[] {dist[Vx][Vy], Vx, Vy });
+                if (d + 1 < dist[nx][ny]) {
+                    dist[nx][ny] = d + 1;
+                    pq.offer(new int[]{d + 1, nx, ny});
                 }
-
             }
-
         }
 
-    
-        if (dist[grid.length - 1][grid[0].length - 1] == Integer.MAX_VALUE) {
-            return -1;
-        }
-
-        return dist[grid.length - 1][grid[0].length - 1];
-
+        int ans = dist[n-1][n-1];
+        return ans == Integer.MAX_VALUE ? -1 : ans;
     }
 }
