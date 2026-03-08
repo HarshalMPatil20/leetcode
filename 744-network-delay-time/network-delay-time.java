@@ -46,10 +46,8 @@ class Solution {
             if(dist[i] == Integer.MAX_VALUE){
                 return -1;
             }
-
             res = Math.max(dist[i],res);
         }
-
         return res;
     }
 }
