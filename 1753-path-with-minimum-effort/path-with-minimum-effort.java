@@ -40,11 +40,12 @@ class Solution {
                     continue;
                 }
 
-                int diff = Math.max(Math.abs(heights[Ux][Uy] - heights[Vx][Vy]),d);
+                int diff = Math.abs(heights[Ux][Uy] - heights[Vx][Vy]);
+                int MaxDiff = Math.max(d,diff);
                 
-                if(dist[Vx][Vy] > diff){
-                    dist[Vx][Vy] = diff;
-                    queue.add(new int[]{diff,Vx,Vy});
+                if(dist[Vx][Vy] > MaxDiff){
+                    dist[Vx][Vy] = MaxDiff;
+                    queue.add(new int[]{MaxDiff,Vx,Vy});
                 }
             }
 
