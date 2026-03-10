@@ -1,38 +1,91 @@
 class Solution {
-    public int minCostConnectPoints(int[][] points) {
-        int minCost = 0;
-        int[] source = points[0];
+    class DSU {
+        int[] parent, rank;
 
-        boolean[] visited = new boolean[points.length];
+        DSU(int V) {
+            parent = new int[V];
+            rank = new int[V];
 
-        PriorityQueue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
-        queue.add(new int[] { 0, source[0], source[1], 0 }); // {dist,Ux,Uy,idxInPoints}
+            for (int i = 0; i < V; i++) {
+                parent[i] = i;
+            }
+        }
 
-        while (!queue.isEmpty()) {
-            int[] curr = queue.poll();
+        int find(int node) {
+            if (parent[node] == node) {
+                return node;
+            }
+            return parent[node] = find(parent[node]);
+        }
 
-            int idx = curr[3];
-            if (visited[idx])
-                continue;
+        boolean union(int x, int y) {
+            int x_parent = find(x);
+            int y_parent = find(y);
 
-            int weight = curr[0];
-            int Ux = curr[1];
-            int Uy = curr[2];
-
-            minCost += weight;
-            visited[idx] = true;
-
-            for (int i = 0; i < points.length; i++) {
-
-                if(!visited[i]){
-                    int Vx = points[i][0];
-                    int Vy = points[i][1];
-                    int manhattanDist = Math.abs(Ux-Vx) + Math.abs(Uy-Vy);
-
-                    queue.add(new int[]{manhattanDist,Vx,Vy,i}); 
-                }
+            if (x_parent == y_parent) {
+                return false; // already connected
             }
 
+            if (rank[x_parent] > rank[y_parent]) {
+                parent[y_parent] = x_parent;
+            } else if (rank[y_parent] > rank[x_parent]) {
+                parent[x_parent] = y_parent;
+            } else {
+                parent[y_parent] = x_parent;
+                rank[x_parent]++;
+            }
+
+            return true;
+        }
+    }
+
+    public List<int[]> generateEdges(int[][] points) {
+
+        List<int[]> edges = new ArrayList<>();
+        int n = points.length;
+
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+
+                int Ux = points[i][0];
+                int Uy = points[i][1];
+                int Vx = points[j][0];
+                int Vy = points[j][1];
+
+                int manhattan = Math.abs(Ux - Vx) + Math.abs(Uy - Vy);
+                edges.add(new int[] { manhattan, i, j });
+            }
+        }
+
+        return edges;
+    }
+
+    public int minCostConnectPoints(int[][] points) {
+
+        List<int[]> edges = generateEdges(points);
+
+        edges.sort(Comparator.comparingInt(a -> a[0]));
+
+        int minCost = 0;
+        int edgesUsed = 0;
+        int V = points.length;
+
+        DSU dsu = new DSU(V);
+
+        for (int[] edge : edges) {
+
+            int w = edge[0];
+            int u = edge[1];
+            int v = edge[2];
+
+            if (dsu.union(u, v)) {
+                minCost += w;
+                edgesUsed++;
+            }
+
+            if (edgesUsed == V - 1) {
+                break;
+            }
         }
 
         return minCost;
