@@ -1,55 +1,46 @@
 class Solution {
 
-    public void DFS(int node, Map<Integer, List<Integer>> adj, Stack<Integer> stack) {
-        List<Integer> list = adj.get(node);
+    Map<Integer, Deque<Integer>> graph = new HashMap<>();
+    List<Integer> path = new ArrayList<>();
 
-        while (list != null && !list.isEmpty()) {
-            int neighbour = list.remove(list.size() - 1);
-            DFS(neighbour, adj, stack);
+    void dfs(int node) {
+        Deque<Integer> edges = graph.get(node);
+
+        while (edges != null && !edges.isEmpty()) {
+            dfs(edges.poll());
         }
 
-        stack.push(node);
+        path.add(node);
     }
 
     public int[][] validArrangement(int[][] pairs) {
 
-        Map<Integer, List<Integer>> adj = new HashMap<>();
-        Map<Integer, int[]> degree = new HashMap<>();
-        Stack<Integer> stack = new Stack<>();
+        Map<Integer, Integer> balance = new HashMap<>();
 
-        for (int[] edge : pairs) {
+        for (int[] e : pairs) {
+            graph.computeIfAbsent(e[0], k -> new ArrayDeque<>()).add(e[1]);
 
-            adj.computeIfAbsent(edge[0], k -> new ArrayList<>());
-            adj.computeIfAbsent(edge[1], k -> new ArrayList<>());
-
-            degree.computeIfAbsent(edge[0], k -> new int[2]);
-            degree.computeIfAbsent(edge[1], k -> new int[2]);
-
-            adj.get(edge[0]).add(edge[1]);
-
-            degree.get(edge[0])[1]++;
-            degree.get(edge[1])[0]++;
+            balance.put(e[0], balance.getOrDefault(e[0], 0) + 1);
+            balance.put(e[1], balance.getOrDefault(e[1], 0) - 1);
         }
 
-        int source = pairs[0][0];
+        int start = pairs[0][0];
 
-        for (int node : degree.keySet()) {
-            if (degree.get(node)[1] - degree.get(node)[0] == 1) {
-                source = node;
+        for (int node : balance.keySet()) {
+            if (balance.get(node) == 1) {
+                start = node;
                 break;
             }
         }
 
-        DFS(source, adj, stack);
-
-        List<Integer> order = new ArrayList<>(stack);
-        Collections.reverse(order);
+        dfs(start);
+        Collections.reverse(path);
 
         int[][] res = new int[pairs.length][2];
 
         for (int i = 0; i < pairs.length; i++) {
-            res[i][0] = order.get(i);
-            res[i][1] = order.get(i + 1);
+            res[i][0] = path.get(i);
+            res[i][1] = path.get(i + 1);
         }
 
         return res;
